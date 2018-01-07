@@ -71,9 +71,9 @@ public class Template {
 	public DataMap map(String name) {
 		return data.map(name);
 	}
-	// TODO map() oder createObject()?
+
 	public DataMap createObject(String name) {
-		return data.map(name);
+		return data.createObject(name);
 	}
 
 	public String render() {

@@ -98,8 +98,14 @@ public class DataMap implements IDataMap {
 		put(name, map);
 		return map;
 	}
-	// TODO map() or createObject()?
-	public DataMap createObject(String name) {
+
+	/**
+	 * Creates and adds a sub-object.
+	 * 
+	 * @param name
+	 * @return new created DataMap
+	 */
+	public DataMap createObject(String name) { // Alias method to map(). I don't know yet which method will survive.
 		DataMap map = new DataMap();
 		put(name, map);
 		return map;
