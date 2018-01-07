@@ -45,10 +45,7 @@ public class TemplateCompiler {
 			o += start.length();
 			int oo = template.indexOf(end, o);
 			if (oo >= 0) {
-				TemplateElement element = createCommand(template.substring(o, oo));
-				if (element != null) {
-					addElement(element); // TODO überlegen ob ich addElement() nicht nach createCommand() verschieben kann
-				}
+				createCommand(template.substring(o, oo));
 				template = template.substring(oo + end.length());
 			} else {
 				throw new TemplateStructureException("closing tag '" + end + "' is missing in template");
@@ -66,14 +63,14 @@ public class TemplateCompiler {
 		return ret;
 	}
 
-	protected TemplateElement createCommand(String cmd) {
+	protected void createCommand(String cmd) {
 		TemplateSyntax syntax = ctx.getSyntax();
 		
 		// EQUAL-CHECKS ----
 		// ELSE
 		if (syntax.isElse(cmd)) {
 			getCurrentIf().addConditionElse();
-			return null;
+			return;
 		}
 		
 		// END-IF
@@ -82,7 +79,7 @@ public class TemplateCompiler {
 				throw new TemplateStructureException("END-IF without previous IF found");
 			}
 			parents.pop();
-			return null;
+			return;
 		}
 		
 		// END-EACH
@@ -91,14 +88,15 @@ public class TemplateCompiler {
 				throw new TemplateStructureException("END-EACH without previous EACH found");
 			}
 			parents.pop();
-			return null;
+			return;
 		}
 		
 		// PATTERN-CHECKS ----
 		// VAR
 		Matcher m = syntax.varPattern(cmd);
 		if (m.matches()) {
-			return new TemplatePlaceholder(syntax.split(cmd));
+			addElement(new TemplatePlaceholder(syntax.split(cmd)));
+			return;
 		}
 		
 		// IF
@@ -107,14 +105,14 @@ public class TemplateCompiler {
 			TemplateIfCommand c = new TemplateIfCommand(syntax.split(m.group(1)), syntax.notPrefix());
 			addElement(c);
 			parents.push(c);
-			return null;
+			return;
 		}
 
 		// ELSE-IF
 		m = syntax.elseifPattern(cmd);
 		if (m.matches()) {
 			getCurrentIf().addCondition(syntax.split(m.group(1)));
-			return null;
+			return;
 		}
 
 		// EACH
@@ -125,7 +123,7 @@ public class TemplateCompiler {
 			TemplateEachCommand loop = new TemplateEachCommand(m.group(varIndex), syntax.split(m.group(listIndex)));
 			addElement(loop);
 			parents.push(loop);
-			return null;
+			return;
 		}
 		
 		throw new UnknownCommandException(cmd);
