@@ -10,7 +10,7 @@ public class TemplateIfCommand implements TemplateElement, TemplateElementContai
 	private final String notPrefix;
 	
 	public TemplateIfCommand(String name, String notPrefix) {
-		if (name == null) {
+		if (name == null || notPrefix == null || notPrefix.trim().isEmpty()) {
 			throw new IllegalArgumentException();
 		}
 		blocks.add(new IfBlock(name));

@@ -1,5 +1,5 @@
 apply plugin: 'java'
-apply plugon: 'maven'
+apply plugin: 'maven'
 apply plugin: 'eclipse'
 
 group = 'com.github.template72'
@@ -9,7 +9,8 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
-	testCompile 'junit:junit:4.12' 
+	testCompile 'junit:junit:4.12'
+	testCompile files('lib/testjar.jar')
 }
 
 repositories {

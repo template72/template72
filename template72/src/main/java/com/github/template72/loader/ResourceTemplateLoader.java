@@ -10,7 +10,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.github.template72.exceptions.TemplateLoadException;
@@ -52,15 +51,14 @@ public class ResourceTemplateLoader implements TemplateLoader {
 		try {
 			URL resource = clazz.getResource(resourceFileName);
 			if (resource == null) {
-				throw new TemplateLoadException("Template cannot be loaded. Resource file not found: " + resourceFileName);
+				throw new TemplateLoadException("Template can not be loaded. Resource file not found: " + resourceFileName);
 			}
 	
 			URI resourceURI = resource.toURI();
 			String r = resourceURI.toString();
 			if (r.contains("!")) {
-				String[] filenameParts = r.split("!");
-				Map<String, String> env = new HashMap<>();
-				try (FileSystem fs = FileSystems.newFileSystem(URI.create(filenameParts[0]), env)) {
+				String[] filenameParts = r.split("!"); // 0: JAR file, 1: file within
+				try (FileSystem fs = FileSystems.newFileSystem(URI.create(filenameParts[0]), new HashMap<>())) {
 					Path path = fs.getPath(filenameParts[1]);
 					String content = new String(Files.readAllBytes(path));
 					loadOperations.incrementAndGet();

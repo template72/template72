@@ -15,7 +15,7 @@ public class FillDataCodeGeneratorTest {
 	public void generate() {
 		CompiledTemplate template = getCompiler().compileFile("index");
 		String code = new FillDataCodeGenerator().generate(template);
-		System.out.println(code);
+//		System.out.println(code);
 		Assert.assertTrue(code.contains("\tsublist.forEach(it -> {\r\n" + 
 				"\t\tDataMap map = sublistList.add(\"X\");"));
 	}
@@ -29,7 +29,7 @@ public class FillDataCodeGeneratorTest {
 		
 		String code = new FillDataCodeGenerator().generate(template);
 		
-		System.out.println(code);
+//		System.out.println(code);
 		Assert.assertTrue(code.contains("\"obj\""));
 		Assert.assertTrue(code.contains("\"field\""));
 	}
@@ -38,7 +38,10 @@ public class FillDataCodeGeneratorTest {
 	@Test
 	public void self() {
 		FillDataCodeGenerator codeGenerator = new FillDataCodeGenerator();
-		System.out.println(codeGenerator.generate(codeGenerator.getOwnTemplate()));
+		String code = codeGenerator.generate(codeGenerator.getOwnTemplate());
+		
+//		System.out.println(code);
+		Assert.assertNotNull(code);
 	}
 
 	private TemplateCompiler getCompiler() {
