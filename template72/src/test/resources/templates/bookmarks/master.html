@@ -1,0 +1,80 @@
+<html lang="de">
+<head>
+<meta charset="windows-1252" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	rel="stylesheet" type="text/css">
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.min.css"
+	rel="stylesheet" type="text/css">
+<link
+	href="http://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"
+	rel="stylesheet" type="text/css">
+<link href="style.css" rel="stylesheet" type="text/css">
+<link rel="icon" sizes="192x192" href="/bookmarks-favicon.png">
+<title>Bookmarks</title>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<h1>Bookmarks</h1>
+			</div>
+			<div class="col-md-12">
+			{{content}}
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="editor" tabindex="-1" role="dialog"
+		aria-labelledby="editor">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Schließen">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="meinModalLabel">Titel bearbeiten</h4>
+				</div>
+				<form>
+					<div class="modal-body">
+						<div class="form-group">
+							<input type="text" class="form-control" id="title" name="title"></input>
+							<input type="hidden" id="id" name="id" value="0"></input>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button id="editSubmit" type="submit" class="btn btn-primary"
+							ic-post-to="/edit" ic-target="" ic-replace-target="true"
+							onclick="$('#editor').modal('hide')">Speichern</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">Schlie&szlig;en</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		function edit(id, title) {
+			var modal = $('#editor');
+			modal.on('shown.bs.modal', function() {
+				$('#title').select();
+				$('#title').focus();
+			});
+			modal.find('#title').val(title);
+			modal.find('#id').val(id);
+			modal.find('#editSubmit').attr('ic-target', '#B_' + id);
+			modal.modal();
+		}
+	</script>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script
+		src="https://intercoolerreleases-leaddynocom.netdna-ssl.com/intercooler-1.2.0.min.js"></script>
+</body>
+</html>

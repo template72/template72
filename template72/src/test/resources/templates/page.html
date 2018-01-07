@@ -1,0 +1,7 @@
+{{master: master}}
+		<table>{{each p in persons}}
+			<tr>
+				<td>{{p.name}}</td>{{if p.hasRole}}
+				<td>{{p.role}}</td>{{/if}}
+			</tr>{{/each}}
+		</table>

@@ -1,0 +1,8 @@
+{{each e in elements}}{{if e.isVar}}{{e.model}}.put("{{e.name}}", {{e.name}});{{e.comment}}
+{{else if e.isObjVar}}{{e.model}}.put("{{e.name}}", it.{{e.getter}});{{e.comment}}
+{{else if e.isEach}}
+DataList {{e.name}}List = {{e.model}}.list("{{e.name}}");
+{{e.name}}.forEach(it -> {
+	DataMap map = {{e.lastName}}List.add("{{e.listVar}}");
+{{e.call}}});
+{{/if}}{{/each}}

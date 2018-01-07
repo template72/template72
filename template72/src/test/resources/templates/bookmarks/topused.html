@@ -1,0 +1,16 @@
+<html>
+<head>
+	<meta charset="windows-1252"/>
+	<title>Top used bookmarks</title>
+</head>
+<body style="font-family: Verdana;">
+<h1>Top used bookmarks</h1>
+<p>
+{{each it in bookmarks}}
+	<div style="font-family: Courier New; padding-bottom: 1em;">
+		{{it.usagesPadded}}x = <a href="{{it.urlV}}" target="_blank">{{it.title}}</a>
+	</div>
+{{/each}}
+</p>
+</body>
+</html>

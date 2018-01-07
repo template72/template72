@@ -1,0 +1,26 @@
+{{master: master}}
+{{title}}
+<form>
+	<div class="form-group">
+		<input type="text" name="url" class="form-control urlfield"
+			id="addbox" placeholder="URL" />
+		<button type="submit" ic-post-to="/add" ic-target="#addtarget"
+			ic-replace-target="true" ic-on-success="$('#addbox').val('');"
+			class="btn btn-success hinzubtn" title="Hinzu">
+			<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+		</button>
+		<button ic-get-from="/reload" class="btn btn-default"
+			ic-target="#bmtable" title="Aktualisieren">
+			<span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+		</button>
+	</div>
+</form>
+<table width="100%" id="bmtable">
+{{include: reload}}
+</table>
+{{if c1}}C-1
+{{else if c2}}C-2
+{{else}}C-3{{/if}}
+<p>Anzahl: {{size}}</p>
+<p class="footertext">Angemeldeter Benutzer: {{user}} &nbsp; <a href="/logout">Abmelden</a></p>
+<p class="footertext">Version {{version}} &copy; 2017 Marcus Warm</p>

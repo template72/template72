@@ -1,0 +1,9 @@
+{{each b in bookmarks}}
+	{{include: add}}
+	{{each X in b.sublist}}
+		{{if X.isIt}}
+			{{X.foo}}
+		{{/if}}
+		{{X.foo2}}
+	{{/each}}
+{{/each}}
