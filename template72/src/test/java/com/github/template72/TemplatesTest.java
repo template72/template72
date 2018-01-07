@@ -37,7 +37,7 @@ public class TemplatesTest {
 
 	@Test
 	public void testFileCache() {
-		Assert.assertEquals("precondition error", 0, ResourceTemplateLoader.getLoadOperations());
+		int startValue = ResourceTemplateLoader.getLoadOperations();
 		dev = false;
 
 		CompiledTemplates many = new CompiledTemplates("page1", "page2", "page3") {
@@ -59,14 +59,14 @@ public class TemplatesTest {
 		many.render("page2", map2);
 
 		Assert.assertEquals("Too many load operations!\r\nMust be 3 pages + 1 master + 1 include = 5\r\n",
-				5, ResourceTemplateLoader.getLoadOperations());
+				5, ResourceTemplateLoader.getLoadOperations() - startValue);
 
 		// now test developer mode
 		dev = true;
 		many.render("page1", map1);
-		Assert.assertEquals(5 + 3, ResourceTemplateLoader.getLoadOperations());
+		Assert.assertEquals(5 + 3, ResourceTemplateLoader.getLoadOperations() - startValue);
 		many.render("page1", map1);
-		Assert.assertEquals(5 + 3 + 3, ResourceTemplateLoader.getLoadOperations());
+		Assert.assertEquals(5 + 3 + 3, ResourceTemplateLoader.getLoadOperations() - startValue);
 	}
 
 	private DataMap getData1() {
