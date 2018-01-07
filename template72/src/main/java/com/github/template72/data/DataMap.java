@@ -51,8 +51,8 @@ public class DataMap implements IDataMap {
 	}
 
 	/**
-	 * @param name
-	 * @param value
+	 * @param name member name that represents the value
+	 * @param value String value
 	 * @return this
 	 */
 	public DataMap put(String name, String value) {
@@ -67,8 +67,8 @@ public class DataMap implements IDataMap {
 	}
 
 	/**
-	 * @param name
-	 * @param condition
+	 * @param name member name that represents the value
+	 * @param condition true or false
 	 * @return this
 	 */
 	public DataMap put(String name, boolean condition) {
@@ -78,7 +78,7 @@ public class DataMap implements IDataMap {
 
 	/**
 	 * Creates and adds a list.
-	 * @param name
+	 * @param name name of the list
 	 * @return new created DataList
 	 */
 	public DataList list(String name) {
@@ -90,7 +90,7 @@ public class DataMap implements IDataMap {
 	/**
 	 * Creates and adds a sub-object.
 	 * 
-	 * @param name
+	 * @param name name of the sub-map
 	 * @return new created DataMap
 	 */
 	public DataMap map(String name) {
@@ -102,7 +102,7 @@ public class DataMap implements IDataMap {
 	/**
 	 * Creates and adds a sub-object.
 	 * 
-	 * @param name
+	 * @param name name of the sub-object
 	 * @return new created DataMap
 	 */
 	public DataMap createObject(String name) { // Alias method to map(). I don't know yet which method will survive.

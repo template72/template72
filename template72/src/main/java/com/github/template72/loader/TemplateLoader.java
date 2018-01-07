@@ -1,5 +1,8 @@
 package com.github.template72.loader;
 
+/**
+ * This interface is used for loading template files.
+ */
 public interface TemplateLoader {
 
 	/**
@@ -10,7 +13,8 @@ public interface TemplateLoader {
 	
 	/**
 	 * The implementation must not support a parentLoader.
-	 * @param parentLoader
+	 * 
+	 * @param parentLoader the loader that should be called if the implementation itself can not load the file
 	 */
 	void setParentLoader(TemplateLoader parentLoader);
 }
