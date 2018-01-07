@@ -124,7 +124,7 @@ A Map&lt;String, String&gt; Object can be added to a DataMap using the putAll() 
 
 ### Real world
 
-Use the CompiledTemplates class for real world scenarios. Read more about it in the Wiki.
+Use the CompiledTemplates class for real world scenarios. Read more about it in the [Wiki](https://github.com/template72/template72/wiki).
 
 ## Building
 
