@@ -4,7 +4,7 @@
 
 template72 is an open-source Java 8 template engine. It needs no external dependencies.
 template72 template files contain nearly no logic. There are only 4 commands: if, each, include, master.
-All the logic must be in the Java files. Reflection is not used. Logic calculations or functions call are not possible. Even no implicit toString() calls. template72 can only take these data types: String, boolean, list and map. The template files must be in the '/templates/' folder and must have the file extension '.html'. But you can customize everything; see wiki for details. The syntax is very strict and case-sensitive.
+All the logic must be in the Java files. Reflection is not used. Logic calculations or function calls are not possible. Even no implicit toString() calls. template72 can only take these data types: String, boolean, list and map. The template files must be in the '/templates/' folder and must have the file extension '.html'. But you can customize everything; see wiki for details. The syntax is very strict and case-sensitive.
 
 [Wiki](https://github.com/template72/template72/wiki)
 
