@@ -3,7 +3,7 @@ apply plugin: 'maven'
 apply plugin: 'eclipse'
 
 group = 'com.github.template72'
-version = '0.1.0-BETA'
+version = '0.1.0-BETA2'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
