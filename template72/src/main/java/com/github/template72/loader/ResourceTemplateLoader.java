@@ -1,6 +1,7 @@
 package com.github.template72.loader;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -44,10 +45,17 @@ public class ResourceTemplateLoader implements TemplateLoader {
 	
 	@Override
 	public String loadTemplate(final String resourceFileName) {
-		return loadResource(getClass(), prefix + resourceFileName + postfix);
+		return loadResource(getClass(), prefix + resourceFileName + postfix, charsetName());
 	}
 	
-	public static String loadResource(final Class<?> clazz, final String resourceFileName) {
+	/**
+	 * @return null for default charset, otherwise a valid name of a charset, e.g. "UTF-8"
+	 */
+	public String charsetName() {
+		return null;
+	}
+	
+	public static String loadResource(final Class<?> clazz, final String resourceFileName, String charsetName) {
 		try {
 			URL resource = clazz.getResource(resourceFileName);
 			if (resource == null) {
@@ -59,19 +67,23 @@ public class ResourceTemplateLoader implements TemplateLoader {
 			if (r.contains("!")) {
 				String[] filenameParts = r.split("!"); // 0: JAR file, 1: file within
 				try (FileSystem fs = FileSystems.newFileSystem(URI.create(filenameParts[0]), new HashMap<>())) {
-					Path path = fs.getPath(filenameParts[1]);
-					String content = new String(Files.readAllBytes(path));
-					loadOperations.incrementAndGet();
-					return content;
+					return getContent(fs.getPath(filenameParts[1]), charsetName);
 				}
 			} else {
-				Path path = Paths.get(resourceURI);
-				String content = new String(Files.readAllBytes(path));
-				loadOperations.incrementAndGet();
-				return content;
+				return getContent(Paths.get(resourceURI), charsetName);
 			}
 		} catch (IOException | URISyntaxException e) {
 			throw new TemplateLoadException("Template can not be loaded. Error loading resource file: " + resourceFileName, e);
+		}
+	}
+
+	private static String getContent(Path path, String charsetName) throws IOException, UnsupportedEncodingException {
+		loadOperations.incrementAndGet();
+		byte[] bytes = Files.readAllBytes(path);
+		if (charsetName == null) {
+			return new String(bytes);
+		} else {
+			return new String(bytes, charsetName);
 		}
 	}
 	

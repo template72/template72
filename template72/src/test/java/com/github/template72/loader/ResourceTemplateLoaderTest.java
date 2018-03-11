@@ -29,12 +29,12 @@ public class ResourceTemplateLoaderTest {
 
 	@Test
 	public void loadResourceFromProject() {
-		ResourceTemplateLoader.loadResource(getClass(), "/templates/page1.html");
+		ResourceTemplateLoader.loadResource(getClass(), "/templates/page1.html", null);
 	}
 
 	@Test
 	public void loadResourceFromJAR() {
 		// The test file testjar.jar is a Zip file that just contains 'templates/dummy.html'.
-		Assert.assertEquals("test file for loader", ResourceTemplateLoader.loadResource(getClass(), "/templates/dummy.html"));
+		Assert.assertEquals("test file for loader", ResourceTemplateLoader.loadResource(getClass(), "/templates/dummy.html", null));
 	}
 }
