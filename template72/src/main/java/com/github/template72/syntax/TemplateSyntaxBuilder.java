@@ -142,7 +142,7 @@ public class TemplateSyntaxBuilder {
 		final String objectNotation = "[a-zA-Z0-9_" + Pattern.quote(fieldSep) + "]+";
 		final String ifNotation = "((" + Pattern.quote(notPrefix) + ")?[a-zA-Z0-9_" + Pattern.quote(fieldSep) + "]+)";
 		final String fieldNameNotation = "([a-zA-Z0-9_]+)"; // must not contain fieldSep !!
-		final String filenameNotation = "([a-zA-Z0-9_][a-zA-Z0-9_ \\./]*)";
+		final String filenameNotation = "([a-zA-Z0-9_][a-zA-Z0-9_ \\.\\-/]*)";
 		
 		// Without start and end
 		if (varPattern == null) {
