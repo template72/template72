@@ -1,16 +1,8 @@
 package com.github.template72.loader;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.HashMap;
+import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.github.template72.exceptions.TemplateLoadException;
@@ -56,34 +48,16 @@ public class ResourceTemplateLoader implements TemplateLoader {
 	}
 	
 	public static String loadResource(final Class<?> clazz, final String resourceFileName, String charsetName) {
-		try {
-			URL resource = clazz.getResource(resourceFileName);
-			if (resource == null) {
-				throw new TemplateLoadException("Template can not be loaded. Resource file not found: " + resourceFileName);
-			}
-	
-			URI resourceURI = resource.toURI();
-			String r = resourceURI.toString();
-			if (r.contains("!")) {
-				String[] filenameParts = r.split("!"); // 0: JAR file, 1: file within
-				try (FileSystem fs = FileSystems.newFileSystem(URI.create(filenameParts[0]), new HashMap<>())) {
-					return getContent(fs.getPath(filenameParts[1]), charsetName);
-				}
-			} else {
-				return getContent(Paths.get(resourceURI), charsetName);
-			}
-		} catch (IOException | URISyntaxException e) {
-			throw new TemplateLoadException("Template can not be loaded. Error loading resource file: " + resourceFileName, e);
+		URL resource = clazz.getResource(resourceFileName);
+		if (resource == null) {
+			throw new TemplateLoadException("Template can not be loaded. Resource file not found: " + resourceFileName);
 		}
-	}
-
-	private static String getContent(Path path, String charsetName) throws IOException, UnsupportedEncodingException {
-		loadOperations.incrementAndGet();
-		byte[] bytes = Files.readAllBytes(path);
-		if (charsetName == null) {
-			return new String(bytes);
-		} else {
-			return new String(bytes, charsetName);
+		try (Scanner s = (charsetName == null ? new Scanner(resource.openStream()) : new Scanner(resource.openStream(), charsetName))) {
+			String str = s.useDelimiter("\\A").hasNext() ? s.next() : "";
+			loadOperations.incrementAndGet();
+			return str;
+		} catch (IOException e) {
+			throw new TemplateLoadException("Template can not be loaded. Error loading resource file: " + resourceFileName, e);
 		}
 	}
 	
