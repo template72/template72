@@ -27,9 +27,17 @@ public class CompiledTemplates {
 		if (!devMode()) {
 			this.compiler.setFirstLoader(cache);
 			for (String templateFilename : templateFilenames) {
-				compiledTemplates.put(templateFilename, this.compiler.compileFile(templateFilename));
+				try {
+                    compiledTemplates.put(templateFilename, this.compiler.compileFile(templateFilename));
+                } catch (RuntimeException e) {
+                    handleException(templateFilename, e);
+                }
 			}
 		}
+	}
+	
+	protected void handleException(String templateFilename, RuntimeException e) { // Template method
+	    throw e;
 	}
 	
 	public String render(String templateFilename, IDataMap data) {
