@@ -36,6 +36,15 @@ public class TemplateCompilerBuilder {
 		this.loader = loader;
 		return this;
 	}
+	
+	public TemplateCompilerBuilder withUTF8Loader() {
+	    return withLoader(new ResourceTemplateLoader() {
+	        @Override
+            public String charsetName() {
+                return "UTF-8";
+            }
+        });
+	}
 
 	/**
 	 * @param path e.g. "/templates/"
