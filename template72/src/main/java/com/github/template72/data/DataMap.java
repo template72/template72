@@ -1,5 +1,6 @@
 package com.github.template72.data;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -121,5 +122,38 @@ public class DataMap implements IDataMap {
 			throw new IllegalArgumentException("name must not be empty");
 		}
 		objects.put(name, item);
+	}
+	
+	public void putInt(String name, int number) {
+	    put(name, "" + number);
+	}
+	
+	public void putSize(String name, Collection<?> collection) {
+	    putInt(name, collection == null ? 0 : collection.size());
+	}
+	
+	/**
+	 * Does a <code>put("hasName", false)</code> for name="name" if o is null or empty.
+	 * @param name at least 1 char
+	 * @param o should be a Collection, String or Map
+	 */
+	public void putHas(final String name, final Object o) {
+	    if (name == null || name.isEmpty()) {
+	        throw new IllegalArgumentException("name must not be empty");
+	    }
+        String has = "has" + name.substring(0, 1).toUpperCase() + name.substring(1);
+        if (o == null) {
+            put(has, false);
+        } else if (o instanceof Collection<?>) { // List, Set, ...
+            put(has, !((Collection<?>) o).isEmpty());
+	    } else if (o instanceof String) {
+	        put(has, !((String) o).isEmpty());
+        } else if (o instanceof Map<?,?>) {
+            put(has, !((Map<?,?>) o).isEmpty());
+        } else if (o instanceof Object[]) { // array
+            put(has, ((Object[]) o).length > 0);
+	    } else { // It's not null. It's not empty or type is not supported for empty check.
+	        put(has, true);
+	    }
 	}
 }
