@@ -21,7 +21,7 @@ Download [the latest JAR](http://jitpack.io/com/github/template72/template72/0.1
 
 ```gradle
 dependencies {
-	compile 'com.github.template72:template72:0.1.0'
+	implementation 'com.github.template72:template72:1.0.0'
 }
 
 repositories {
@@ -36,7 +36,7 @@ or Maven:
 <dependency>
 	<groupId>com.github.template72</groupId>
 	<artifactId>template72</artifactId>
-	<version>0.1.0</version>
+	<version>1.0.0</version>
 </dependency>
 
 <repositories>
