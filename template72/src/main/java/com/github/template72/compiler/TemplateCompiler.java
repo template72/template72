@@ -39,6 +39,9 @@ public class TemplateCompiler {
 		// SEARCH FOR TAGS
 		int o = template.indexOf(start);
 		while (o >= 0) {
+            while (template.startsWith(start, o + 1)) { // handle case "{{{var}}"
+                o++;
+            }
 			if (o > 0) {
 				addElement(new TemplateText(template.substring(0, o)));
 			}
