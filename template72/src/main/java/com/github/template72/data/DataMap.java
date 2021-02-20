@@ -156,4 +156,16 @@ public class DataMap implements IDataMap {
 	        put(has, true);
 	    }
 	}
+	
+	public void clear() {
+	    objects.clear();
+	}
+	
+	public boolean isEmpty() {
+	    return objects.isEmpty();
+	}
+	
+	public int size() {
+	    return objects.size();
+	}
 }
