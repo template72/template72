@@ -61,10 +61,15 @@ public class DataMap implements IDataMap {
 		return this;
 	}
 
-	public void putAll(Map<String, String> values) {
+	/**
+	 * @param values map
+	 * @return this
+	 */
+	public DataMap putAll(Map<String, String> values) {
 		for (Map.Entry<String, String> e : values.entrySet()) {
 			put(e.getKey(), e.getValue());
 		}
+		return this;
 	}
 
 	/**
@@ -124,20 +129,23 @@ public class DataMap implements IDataMap {
 		objects.put(name, item);
 	}
 	
-	public void putInt(String name, int number) {
+	public DataMap putInt(String name, int number) {
 	    put(name, "" + number);
+	    return this;
 	}
 	
-	public void putSize(String name, Collection<?> collection) {
+	public DataMap putSize(String name, Collection<?> collection) {
 	    putInt(name, collection == null ? 0 : collection.size());
+        return this;
 	}
 	
 	/**
 	 * Does a <code>put("hasName", false)</code> for name="name" if o is null or empty.
 	 * @param name at least 1 char
 	 * @param o should be a Collection, String or Map
+	 * @return this
 	 */
-	public void putHas(final String name, final Object o) {
+	public DataMap putHas(final String name, final Object o) {
 	    if (name == null || name.isEmpty()) {
 	        throw new IllegalArgumentException("name must not be empty");
 	    }
@@ -155,6 +163,7 @@ public class DataMap implements IDataMap {
 	    } else { // It's not null. It's not empty or type is not supported for empty check.
 	        put(has, true);
 	    }
+        return this;
 	}
 	
 	public void clear() {
