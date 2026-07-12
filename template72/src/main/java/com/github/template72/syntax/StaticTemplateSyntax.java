@@ -7,14 +7,15 @@ import java.util.stream.Collectors;
 
 public final class StaticTemplateSyntax implements TemplateSyntax {
 	private final String start, end, fieldSep, notPrefix, elseTag, endIf, endEach, content, commentStart, commentEnd;
-	private final Pattern varPattern, ifPattern, elseifPattern, eachPattern, masterPattern, includePattern;
+	private final Pattern varPattern, ifPattern, elseifPattern, eachPattern, masterPattern, includePattern, sizePattern;
 	
 	StaticTemplateSyntax(String start, String end, String fieldSep, Pattern varPattern,
 			Pattern ifPattern, String notPrefix, String elseTag, Pattern elseifPattern, String endIf,
 			Pattern eachPattern, String endEach,
 			Pattern masterPattern, String content,
 			Pattern includePattern,
-			String commentStart, String commentEnd) {
+			String commentStart, String commentEnd,
+			Pattern sizePattern) {
 		this.start = start;
 		this.end = end;
 		this.fieldSep = fieldSep;
@@ -36,6 +37,8 @@ public final class StaticTemplateSyntax implements TemplateSyntax {
 
 		this.commentStart = commentStart;
 		this.commentEnd = commentEnd;
+		
+		this.sizePattern = sizePattern;
 	}
 
 	@Override
@@ -125,4 +128,9 @@ public final class StaticTemplateSyntax implements TemplateSyntax {
 	public String commentEnd() {
 		return commentEnd;
 	}
+
+	@Override
+    public Matcher sizePattern(String cmd) {
+        return sizePattern.matcher(cmd);
+    }
 }

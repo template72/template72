@@ -129,6 +129,13 @@ public class TemplateCompiler {
 			return;
 		}
 		
+		// SIZE
+		m = syntax.sizePattern(cmd);
+		if (m.matches()) {
+		    addElement(new TemplateSizeCommand(m.group(1)));
+		    return;
+		}
+		
 		throw new UnknownCommandException(cmd);
 	}
 	

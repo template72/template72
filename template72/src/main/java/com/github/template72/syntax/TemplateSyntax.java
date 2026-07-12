@@ -41,4 +41,6 @@ public interface TemplateSyntax {
 	String commentStart();
 	
 	String commentEnd();
+	
+	Matcher sizePattern(String cmd);
 }

@@ -628,4 +628,25 @@ public class TemplateTest {
         Template template = Template.createFromString("{{a}}/{{b}}/{{c}}").withData(model);
         Assert.assertEquals("42//1234", template.render());
 	}
+    
+    @Test
+    public void testSizeCommand() {
+        Template template = Template.createFromString("{{size list2}}");
+        DataList list2 = template.list("list2");
+        Assert.assertEquals("0", template.render());
+        list2.add();
+        list2.add();
+        Assert.assertEquals("2", template.render());
+    }
+    
+    @Test
+    public void testSizeCommand_notACollection() {
+        Template template = Template.createFromString("{{size f}}");
+        template.put("f", "not a list");
+        try {
+            template.render();
+            Assert.fail("expected Exception");
+        } catch (Exception expected) { //
+        }
+    }
 }

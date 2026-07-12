@@ -25,6 +25,8 @@ public class TemplateSyntaxBuilder {
 	private String commentStart = null;
 	private String commentEnd = null;
 	
+	private String sizePattern = null;
+	
 	public TemplateSyntaxBuilder() {
 		this("{{", "}}");
 	}
@@ -128,6 +130,11 @@ public class TemplateSyntaxBuilder {
 		return this;
 	}
 	
+    public TemplateSyntaxBuilder withSizePattern(String v) {
+        sizePattern = v;
+        return this;
+    }
+	   
 	public TemplateSyntax build() {
 		setActualValues();
 		return new StaticTemplateSyntax(start, end, fieldSep, Pattern.compile(varPattern),
@@ -135,7 +142,8 @@ public class TemplateSyntaxBuilder {
 				Pattern.compile(eachPattern), endEach,
 				Pattern.compile(masterPattern), content,
 				Pattern.compile(includePattern),
-				commentStart, commentEnd);
+				commentStart, commentEnd,
+				Pattern.compile(sizePattern));
 	}
 	
 	protected void setActualValues() {
@@ -156,6 +164,9 @@ public class TemplateSyntaxBuilder {
 		}
 		if (eachPattern == null) { // "each V in L"
 			eachPattern = Pattern.quote("each ") + fieldNameNotation + Pattern.quote(" in ") + "(" + objectNotation + ")";
+		}
+		if (sizePattern == null) {
+		    sizePattern = Pattern.quote("size ") + fieldNameNotation;
 		}
 		
 		// With start and/or end = standard preprocessor tags
