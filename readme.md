@@ -2,9 +2,10 @@
 
 # template72 Template Engine
 
-template72 is an open-source Java 8 template engine. It needs no external dependencies.
+template72 is an open-source Java 17 template engine. It needs no external dependencies.
 template72 template files contain nearly no logic. There are only 4 commands: if, each, include, master.
 All the logic must be in the Java files. Reflection is not used. Logic calculations or function calls are not possible. Even no implicit toString() calls. template72 can only take these data types: String, boolean, list and map. The template files must be in the '/templates/' folder and must have the file extension '.html'. But you can customize everything; see wiki for details. The syntax is very strict and case-sensitive.
+Last Java 8 version is 1.0.0.
 
 [Wiki](https://github.com/template72/template72/wiki)
 
@@ -21,7 +22,7 @@ Download [the latest JAR](http://jitpack.io/com/github/template72/template72/0.1
 
 ```gradle
 dependencies {
-	implementation 'com.github.template72:template72:1.0.0'
+	implementation 'com.github.template72:template72:1.1.0'
 }
 
 repositories {
@@ -36,7 +37,7 @@ or Maven:
 <dependency>
 	<groupId>com.github.template72</groupId>
 	<artifactId>template72</artifactId>
-	<version>1.0.0</version>
+	<version>1.1.0</version>
 </dependency>
 
 <repositories>
@@ -48,7 +49,7 @@ or Maven:
 ```
 
 See [jitpack.io](https://jitpack.io/#template72/template72) for other build tools or other versions.
-template72 requires at minimum Java 8.
+template72 requires at minimum Java 17.
 
 
 ## Usage
@@ -130,8 +131,7 @@ Use the CompiledTemplates class for real world scenarios. Read more about it in 
 
 ## Building
 
-Checkout the files and build with Gradle 3.3 on Windows using `gradlew.bat build` or on Linux/Mac using `./gradlew build`.
-There's also a Windows-specific Ant wrapper file build.xml that you can easily use in the Eclipse Ant view.
+Checkout the files and build with Gradle 8.4 on Windows using `gradlew.bat build` or on Linux/Mac using `./gradlew build`.
 
 ## Contributing
 

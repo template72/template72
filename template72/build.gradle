@@ -1,39 +1,39 @@
-apply plugin: 'java'
-apply plugin: 'maven'
-apply plugin: 'eclipse'
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+    id 'eclipse'
+}
 
 group = 'com.github.template72'
-version = '1.0.0-B2'
+version = '1.1.0'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+    
+    withSourcesJar()
+    withJavadocJar()
+}
 
 dependencies {
-	testCompile 'junit:junit:4.12'
-	testCompile files('lib/testjar.jar')
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation files('lib/testjar.jar')
 }
 
 repositories {
-	mavenCentral()
-}
-
-task sourcesJar(type: Jar, dependsOn: classes) {
-	classifier = 'sources'
-	from sourceSets.main.allSource
-}
-	
-task javadocJar(type: Jar, dependsOn: javadoc) {
-	classifier = 'javadoc'
-	from javadoc.destinationDir
-}
-	
-artifacts {
-	archives sourcesJar
-	archives javadocJar
+    mavenCentral()
 }
 
 test {
     reports {
-        html.enabled = true
+        html.required = true
     }               
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
 }
