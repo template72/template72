@@ -649,4 +649,24 @@ public class TemplateTest {
         } catch (Exception expected) { //
         }
     }
+
+    @Test
+    public void test_ifNotEmptyCollection() {
+        Template template = new Template();
+        template.compile("{{if list2}}list2 has entries{{else}}list2 is empty{{/if}}");
+        DataList list2 = template.list("list2");
+        Assert.assertEquals("list2 is empty", template.render());
+        list2.add();
+        Assert.assertEquals("list2 has entries", template.render());
+    }
+
+    @Test
+    public void test_ifNotEmptyString() {
+        Template template = new Template();
+        template.compile("{{if str}}str is not empty{{else}}str is empty{{/if}}");
+        template.put("str", "");
+        Assert.assertEquals("str is empty", template.render());
+        template.put("str", "a");
+        Assert.assertEquals("str is not empty", template.render());
+    }
 }
