@@ -1,6 +1,8 @@
 package com.github.template72;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.Assert;
@@ -668,5 +670,19 @@ public class TemplateTest {
         Assert.assertEquals("str is empty", template.render());
         template.put("str", "a");
         Assert.assertEquals("str is not empty", template.render());
+    }
+
+    @Test
+    public void test_stringList() {
+        List<String> stringList = new ArrayList<>();
+        stringList.add("item-1");
+        stringList.add("item-2");
+        Template template = new Template();
+        DataMap model = new DataMap();
+
+        model.stringList("slist", stringList, "s");
+        
+        template.compile("{{each i in slist}}{{i.s}}/{{/each}}").withData(model);
+        Assert.assertEquals("item-1/item-2/", template.render());
     }
 }

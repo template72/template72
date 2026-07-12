@@ -189,4 +189,10 @@ public class DataMap implements IDataMap {
 	public int size() {
 	    return objects.size();
 	}
+	
+    public DataList stringList(String listName, Collection<String> items, String itemName) {
+        DataList slist = list(listName);
+        items.forEach(s -> slist.add().put(itemName, s));
+        return slist;
+    }
 }
