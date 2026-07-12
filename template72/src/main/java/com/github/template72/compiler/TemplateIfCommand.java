@@ -11,7 +11,7 @@ import com.github.template72.data.IDataMap;
 import com.github.template72.data.IDataValue;
 import com.github.template72.exceptions.MissingContentException;
 
-public class TemplateIfCommand implements TemplateElement, TemplateElementContainer {
+public class TemplateIfCommand implements TemplateElement, TemplateElementContainer, ITemplateIfCommand {
 	private final List<IfBlock> blocks = new ArrayList<>();
 	private final String notPrefix;
 	
@@ -23,6 +23,7 @@ public class TemplateIfCommand implements TemplateElement, TemplateElementContai
 		this.notPrefix = notPrefix;
 	}
 
+    @Override
 	public void addCondition(String name) {
 		if (name == null) {
 			throw new IllegalArgumentException();
@@ -30,6 +31,7 @@ public class TemplateIfCommand implements TemplateElement, TemplateElementContai
 		blocks.add(new IfBlock(name));
 	}
 
+	@Override
 	public void addConditionElse() {
 		blocks.add(new IfBlock(null));
 	}
@@ -63,7 +65,7 @@ public class TemplateIfCommand implements TemplateElement, TemplateElementContai
 		return new CompiledTemplate();
 	}
 	
-	private boolean evaluate(IDataItem item, String name, IDataMap data) {
+	static boolean evaluate(IDataItem item, String name, IDataMap data) {
         if (item instanceof IDataCondition) { // typical case of if command
             return data.getCondition(name).isTrue();
         } else if (item instanceof IDataList l) { // is list not empty?

@@ -123,7 +123,7 @@ public class TemplateCompiler {
 		if (m.matches()) {
 			int varIndex = 1;
 			int listIndex = 2;
-			TemplateEachCommand loop = new TemplateEachCommand(m.group(varIndex), syntax.split(m.group(listIndex)));
+			TemplateEachCommand loop = new TemplateEachCommand(m.group(varIndex), syntax.split(m.group(listIndex)), syntax.notPrefix());
 			addElement(loop);
 			parents.push(loop);
 			return;
@@ -147,11 +147,14 @@ public class TemplateCompiler {
 		}
 	}
 
-	private TemplateIfCommand getCurrentIf() {
-		if (parents.isEmpty() || !(parents.peek() instanceof TemplateIfCommand)) {
-			throw new TemplateStructureException("ELSE or ELSE-IF without previous IF found");
-		}
-		return ((TemplateIfCommand) parents.peek());
+	private ITemplateIfCommand getCurrentIf() {
+        if (!parents.isEmpty()) {
+            var p = parents.peek();
+            if (p instanceof ITemplateIfCommand i) {
+                return i;
+            }
+        }
+        throw new TemplateStructureException("ELSE or ELSE-IF without previous IF found");
 	}
 	
 	public void setFirstLoader(TemplateLoader loader) {

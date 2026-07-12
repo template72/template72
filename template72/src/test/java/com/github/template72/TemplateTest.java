@@ -748,4 +748,43 @@ public class TemplateTest {
         template.compile("{{each i in slist}}{{i.s}}/{{/each}}").withData(model);
         Assert.assertEquals("good-1/good-2/", template.render());
     }
+
+    @Test
+    public void test_EachElse() {
+        Template template = new Template();
+        template.put("name", "list2");
+        template.put("state", "empty");
+        template.compile("{{each i in list2}}{{i.s}},{{else}}  {{name}} is {{state}}. {{/each}}");
+        DataList list2 = template.list("list2");
+        Assert.assertEquals("  list2 is empty. ", template.render());
+        list2.add().put("s", "A");
+        list2.add().put("s", "B");
+        Assert.assertEquals("A,B,", template.render());
+    }
+
+    @Test
+    public void test_EachElseif() {
+        Template template = new Template();
+        template.put("name", "list2");
+        template.put("state", "empty");
+        template.put("show", true);
+        template.compile("{{each i in list2}}{{i.s}},{{else if show}}  {{name}} is {{state}}. {{/each}}");
+        template.list("list2");
+        Assert.assertEquals("  list2 is empty. ", template.render());
+        template.put("show", false);
+        Assert.assertTrue("must be empty", template.render().isEmpty());
+    }
+
+    @Test
+    public void test_EachElseifElse() {
+        Template template = new Template();
+        template.put("name", "list2");
+        template.put("state", "empty");
+        template.put("show", true);
+        template.compile("{{each i in list2}}{{i.s}},{{else if show}}(show)  {{name}} is {{state}}. {{else}}  {{name}} is {{state}}. {{/each}}");
+        template.list("list2");
+        Assert.assertEquals("(show)  list2 is empty. ", template.render());
+        template.put("show", false);
+        Assert.assertEquals("  list2 is empty. ", template.render());
+    }
 }
