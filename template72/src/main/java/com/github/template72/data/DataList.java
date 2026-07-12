@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class DataList extends ArrayList<IDataMap> implements IDataList {
 	
 	public DataMap add() {
-		DataMap map = new DataMap();
+		DataMap map = (DataMap) DataFactory.factory.createDataMap();
 		add(map);
 		return map;
 	}

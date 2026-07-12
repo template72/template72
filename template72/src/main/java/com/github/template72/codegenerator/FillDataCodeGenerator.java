@@ -11,6 +11,7 @@ import com.github.template72.compiler.TemplateEachCommand;
 import com.github.template72.compiler.TemplateElement;
 import com.github.template72.compiler.TemplateIfCommand;
 import com.github.template72.compiler.TemplatePlaceholder;
+import com.github.template72.data.DataFactory;
 import com.github.template72.data.DataList;
 import com.github.template72.data.DataMap;
 import com.github.template72.syntax.TemplateSyntax;
@@ -37,7 +38,7 @@ public class FillDataCodeGenerator {
 	}
 
 	private DataMap createModel(List<FillDataCommand> commands) {
-		DataMap model = new DataMap();
+		DataMap model = (DataMap) DataFactory.factory.createDataMap();
 		DataList elementsList = model.list("elements");
 		commands.forEach(command -> {
 			DataMap map = elementsList.add();

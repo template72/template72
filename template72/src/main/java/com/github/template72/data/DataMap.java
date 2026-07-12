@@ -59,7 +59,7 @@ public class DataMap implements IDataMap {
 	 * @return this
 	 */
 	public DataMap put(String name, String value) {
-		addToObjects(name, new DataValue(value));
+        addToObjects(name, DataFactory.factory.createDataValue(value));
 		return this;
 	}
 
@@ -80,7 +80,7 @@ public class DataMap implements IDataMap {
 	 * @return this
 	 */
 	public DataMap put(String name, boolean condition) {
-		addToObjects(name, new DataCondition(condition));
+		addToObjects(name, DataFactory.factory.createDataCondition(condition));
 		return this;
 	}
 
@@ -90,7 +90,7 @@ public class DataMap implements IDataMap {
 	 * @return new created DataList
 	 */
 	public DataList list(String name) {
-		DataList list = new DataList();
+		DataList list = (DataList) DataFactory.factory.createDataList();
 		addToObjects(name, list);
 		return list;
 	}
@@ -102,7 +102,7 @@ public class DataMap implements IDataMap {
 	 * @return new created DataMap
 	 */
 	public DataMap map(String name) {
-		DataMap map = new DataMap();
+		DataMap map = (DataMap) DataFactory.factory.createDataMap();
 		put(name, map);
 		return map;
 	}
@@ -114,7 +114,7 @@ public class DataMap implements IDataMap {
 	 * @return new created DataMap
 	 */
 	public DataMap createObject(String name) { // Alias method to map(). I don't know yet which method will survive.
-		DataMap map = new DataMap();
+		DataMap map = (DataMap) DataFactory.factory.createDataMap();
 		put(name, map);
 		return map;
 	}

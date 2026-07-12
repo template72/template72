@@ -5,6 +5,7 @@ import java.util.Map;
 import com.github.template72.compiler.CompiledTemplate;
 import com.github.template72.compiler.TemplateCompiler;
 import com.github.template72.compiler.TemplateCompilerBuilder;
+import com.github.template72.data.DataFactory;
 import com.github.template72.data.DataList;
 import com.github.template72.data.DataMap;
 import com.github.template72.syntax.TemplateSyntax;
@@ -12,7 +13,7 @@ import com.github.template72.syntax.TemplateSyntax;
 public class Template {
 	private final TemplateCompiler compiler;
 	private CompiledTemplate compiledTemplate;
-	private DataMap data = new DataMap();
+	private DataMap data = (DataMap) DataFactory.factory.createDataMap();
 	
 	public Template() {
 		this(new TemplateCompilerBuilder().build());
