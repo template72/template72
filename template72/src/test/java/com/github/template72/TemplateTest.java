@@ -618,4 +618,14 @@ public class TemplateTest {
             Assert.assertTrue(e.getMessage().contains("DataCondition"));
         }
 	}
+	
+	@Test
+	public void testPutInteger() {
+	    DataMap model = new DataMap ();
+	    model.putInt("a", 42);
+	    model.putInteger("b", (Integer) null);
+	    model.putInteger("c", Integer.valueOf(1234));
+        Template template = Template.createFromString("{{a}}/{{b}}/{{c}}").withData(model);
+        Assert.assertEquals("42//1234", template.render());
+	}
 }

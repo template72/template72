@@ -136,6 +136,16 @@ public class DataMap implements IDataMap {
 	    return this;
 	}
 	
+	/**
+	 * @param name -
+	 * @param number if null: "" is put
+	 * @return this
+	 */
+	public DataMap putInteger(String name, Integer number) {
+	    put(name, number == null ? "" : "" + number.intValue());
+	    return this;
+	}
+	
 	public DataMap putSize(String name, Collection<?> collection) {
 	    putInt(name, collection == null ? 0 : collection.size());
         return this;
