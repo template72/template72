@@ -733,4 +733,19 @@ public class TemplateTest {
         Assert.assertEquals(expectation, template.render());
         
     }
+
+    @Test
+    public void test_removeLastListItem() {
+        DataMap model = new DataMap();
+        DataList list2 = model.list("slist");
+        list2.add().put("s", "good-1");
+        list2.add().put("s", "good-2");
+
+        list2.add().put("s", "bad");
+        list2.removeLast();
+        
+        Template template = new Template();
+        template.compile("{{each i in slist}}{{i.s}}/{{/each}}").withData(model);
+        Assert.assertEquals("good-1/good-2/", template.render());
+    }
 }

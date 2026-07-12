@@ -50,4 +50,11 @@ public class DataList extends ArrayList<IDataMap> implements IDataList {
                 .replace("ü", "ue")
                 .replace("ß", "ss");
     }
+    
+    public void removeLast() {
+        int n = size();
+        if (n > 0) {
+            remove(n - 1);
+        }
+    }
 }
