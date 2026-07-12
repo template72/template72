@@ -7,7 +7,7 @@ import java.util.Map;
 import com.github.template72.exceptions.MissingContentException;
 import com.github.template72.syntax.TemplateSyntax;
 
-public class DataMap implements IDataMap {
+public class DataMap implements IDataMap, RememberDataItem {
 	private final Map<String, IDataItem> objects = new HashMap<>();
 	
 	@Override
@@ -130,7 +130,7 @@ public class DataMap implements IDataMap {
 		addToObjects(name, map);
 	}
 
-	void addToObjects(String name, IDataItem item) {
+	private void addToObjects(String name, IDataItem item) {
 		if (name == null || name.trim().isEmpty()) {
 			throw new IllegalArgumentException("name must not be empty");
 		}
@@ -200,5 +200,35 @@ public class DataMap implements IDataMap {
         DataList slist = list(listName);
         items.forEach(s -> slist.add().put(itemName, s));
         return slist;
+    }
+    
+    /**
+     * INTERNAL
+     * @param name -
+     * @return can be null
+     */
+    @Override
+    public IDataItem _remember(String name) {
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException();
+        }
+        return objects.get(name);
+    }
+
+    /**
+     * INTERNAL
+     * @param name -
+     * @param item can be null
+     */
+    @Override
+    public void _restore(String name, IDataItem item) {
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException();
+        }
+        if (item == null) {
+            objects.remove(name);
+        } else {
+            objects.put(name, item);
+        }
     }
 }

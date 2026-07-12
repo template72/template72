@@ -3,6 +3,7 @@ package com.github.template72.compiler;
 import com.github.template72.data.IDataItem;
 import com.github.template72.data.IDataList;
 import com.github.template72.data.IDataMap;
+import com.github.template72.data.RememberDataItem;
 
 public class TemplateEachCommand extends TemplateElseCommand implements TemplateElement {
 	private final String var;
@@ -26,17 +27,23 @@ public class TemplateEachCommand extends TemplateElseCommand implements Template
         }
 		
         // each ----
-		StringBuilder sb = new StringBuilder();
-		IDataItem before = data.get(var); // remember (can only be a IDataMap or null)
-		CompiledTemplate elements = getBlocks().get(0).getElements();
-		for (IDataMap o : list) {
-			data.put(var, o);
-			sb.append(elements.render(data));
+		IDataItem before = null;
+		if (data instanceof RememberDataItem r) {
+		    before = r._remember(var);
 		}
-		if (before instanceof IDataMap v) {
-			data.put(var, v); // restore
-		}
-		return sb.toString();
+        try {
+            StringBuilder sb = new StringBuilder();
+            CompiledTemplate elements = getBlocks().get(0).getElements();
+            for (IDataMap o : list) {
+                data.put(var, o);
+                sb.append(elements.render(data));
+            }
+            return sb.toString();
+        } finally {
+            if (data instanceof RememberDataItem r) {
+                r._restore(var, before);
+            }
+        }
 	}
 	
 	public String getVar() {

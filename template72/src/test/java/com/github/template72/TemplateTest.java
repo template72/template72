@@ -787,4 +787,14 @@ public class TemplateTest {
         template.put("show", false);
         Assert.assertEquals("  list2 is empty. ", template.render());
     }
+    
+    @Test
+    public void runvar() {
+        Template template = new Template();
+        template.put("i", "is it still there?");
+        template.compile("before: {{i}} {{each i in list2}}{{i.s}},{{/each}} after: {{i}}");
+        DataList list2 = template.list("list2");
+        list2.add().put("s", "hi");
+        Assert.assertEquals("before: is it still there? hi, after: is it still there?", template.render());
+    }
 }
