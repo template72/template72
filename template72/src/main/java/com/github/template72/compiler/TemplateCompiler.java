@@ -147,10 +147,10 @@ public class TemplateCompiler {
 		}
 	}
 
-	private ITemplateIfCommand getCurrentIf() {
+	private TemplateElseCommand getCurrentIf() {
         if (!parents.isEmpty()) {
             var p = parents.peek();
-            if (p instanceof ITemplateIfCommand i) {
+            if (p instanceof TemplateElseCommand i) {
                 return i;
             }
         }

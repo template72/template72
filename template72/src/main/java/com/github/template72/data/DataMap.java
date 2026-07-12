@@ -130,7 +130,7 @@ public class DataMap implements IDataMap {
 		addToObjects(name, map);
 	}
 
-	private void addToObjects(String name, IDataItem item) {
+	void addToObjects(String name, IDataItem item) {
 		if (name == null || name.trim().isEmpty()) {
 			throw new IllegalArgumentException("name must not be empty");
 		}
