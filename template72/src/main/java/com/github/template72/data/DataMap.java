@@ -27,8 +27,10 @@ public class DataMap implements IDataMap {
 	@Override
 	public IDataValue getValue(String name) {
 		IDataItem any = get(name);
-		if (any instanceof DataValue) {
-			return (DataValue) any;
+		if (any instanceof IDataValue) {
+			return (IDataValue) any;
+		} else if (any != null) {
+            throw new MissingContentException(name, any.getClass());
 		}
 		throw new MissingContentException(name);
 	}

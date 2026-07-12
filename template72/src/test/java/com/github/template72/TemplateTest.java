@@ -387,7 +387,7 @@ public class TemplateTest {
 	@Test(expected = UnknownCommandException.class)
 	public void test_illegalVarName() {
 		Template template = new Template();
-		template.compile("{{if écond}}yes{{/if}}");
+		template.compile("{{if ï¿½cond}}yes{{/if}}");
 		template.render();
 	}
 
@@ -605,5 +605,17 @@ public class TemplateTest {
 			}
 		}
 
+	}
+	
+	@Test
+	public void testBooleanUsedAsString() {
+	    Template template = Template.createFromString("{{selected}}"); // used as String; correct would be {{if selected}}
+	    template.put("selected", true); // but it's a boolean
+	    try {
+            template.render();
+            Assert.fail("expected MissingContentException");
+        } catch (MissingContentException e) {
+            Assert.assertTrue(e.getMessage().contains("DataCondition"));
+        }
 	}
 }
