@@ -677,12 +677,60 @@ public class TemplateTest {
         List<String> stringList = new ArrayList<>();
         stringList.add("item-1");
         stringList.add("item-2");
-        Template template = new Template();
         DataMap model = new DataMap();
 
         model.stringList("slist", stringList, "s");
         
+        Template template = new Template();
         template.compile("{{each i in slist}}{{i.s}}/{{/each}}").withData(model);
         Assert.assertEquals("item-1/item-2/", template.render());
+    }
+    
+    @Test
+    public void test_sortList_case_asc() {
+        sortList("AAAA/ ZZ/ m/ z/ ", List.of("ZZ", "AAAA", "z", "m"), false, true);
+    }
+    
+    @Test
+    public void test_sortList_case_desc() {
+        sortList("z/ m/ ZZ/ AAAA/ ", List.of("ZZ", "AAAA", "z", "m"), false, false);
+    }
+    
+    @Test
+    public void test_sortList_ignoreCase_asc() {
+        sortList("AAAA/ m/ z/ ZZ/ ", List.of("ZZ", "AAAA", "z", "m"), true, true);
+    }
+    
+    @Test
+    public void test_sortList_ignoreCase_desc() {
+        sortList("ZZ/ z/ m/ AAAA/ ", List.of("ZZ", "AAAA", "z", "m"), true, false);
+    }
+
+    @Test
+    public void test_sortList_umlaute() {
+        List<String> items = List.of("Ü", "ud", "sr", "Ä", "1", "Uf", "ß", "Ö");
+        DataMap model = new DataMap();
+        DataList list2 = model.stringList("slist", items, "s");
+        Template template = new Template();
+        template.compile("{{each i in slist}}{{i.s}}/ {{/each}}").withData(model);
+        
+        // asc
+        list2.sortGerman("s", true);
+        Assert.assertEquals("1/ Ä/ Ö/ sr/ ß/ ud/ Ü/ Uf/ ", template.render());
+        
+        // desc
+        list2.sortGerman("s", false);
+        Assert.assertEquals("Uf/ Ü/ ud/ ß/ sr/ Ö/ Ä/ 1/ ", template.render());
+    }
+
+    private void sortList(String expectation, List<String> items, boolean ignoreCase, boolean asc) {
+        DataMap model = new DataMap();
+        DataList list2 = model.stringList("slist", items, "s");
+        list2.sort("s", ignoreCase, asc);
+        
+        Template template = new Template();
+        template.compile("{{each i in slist}}{{i.s}}/ {{/each}}").withData(model);
+        Assert.assertEquals(expectation, template.render());
+        
     }
 }
