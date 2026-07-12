@@ -14,12 +14,14 @@ public class DataMap implements IDataMap {
 	public IDataItem get(String name) {
 		int o = name.indexOf(TemplateSyntax.internalFieldSep);
 		if (o > 0) {
-			IDataItem map = objects.get(name.substring(0, o));
-			if (map instanceof DataMap) {
-				return ((DataMap) map).get(name.substring(o + TemplateSyntax.internalFieldSep.length()));
-			} else {
-				throw new MissingContentException(name);
-			}
+            IDataItem item = objects.get(name.substring(0, o));
+            if (item instanceof IDataMap map) {
+                return map.get(name.substring(o + TemplateSyntax.internalFieldSep.length()));
+            } else if (item != null) {
+                throw new MissingContentException(name, "IDataMap", item.getClass());
+            } else {
+                throw new MissingContentException(name);
+            }
 		}
 		return objects.get(name);
 	}
@@ -30,7 +32,7 @@ public class DataMap implements IDataMap {
 		if (any instanceof IDataValue) {
 			return (IDataValue) any;
 		} else if (any != null) {
-            throw new MissingContentException(name, any.getClass());
+            throw new MissingContentException(name, "IDataValue", any.getClass());
 		}
 		throw new MissingContentException(name);
 	}
@@ -38,8 +40,10 @@ public class DataMap implements IDataMap {
 	@Override
 	public IDataCondition getCondition(String name) {
 		IDataItem any = get(name);
-		if (any instanceof DataCondition) {
-			return (DataCondition) any;
+		if (any instanceof IDataCondition) {
+			return (IDataCondition) any;
+        } else if (any != null) {
+            throw new MissingContentException(name, "IDataCondition", any.getClass());
 		}
 		throw new MissingContentException(name);
 	}
@@ -47,8 +51,10 @@ public class DataMap implements IDataMap {
 	@Override
 	public IDataList getList(String name) {
 		IDataItem any = get(name);
-		if (any instanceof DataList) {
-			return (DataList) any;
+		if (any instanceof IDataList) {
+			return (IDataList) any;
+        } else if (any != null) {
+            throw new MissingContentException(name, "IDataList", any.getClass());
 		}
 		throw new MissingContentException(name);
 	}

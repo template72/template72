@@ -6,7 +6,7 @@ public class MissingContentException extends RuntimeException {
 		super("Missing content: " + name);
 	}
 	
-	public MissingContentException(String name, Class<?> clazz) {
-        super("The variable '" + name + "' is not of type IDataValue, but has the unexpected type " + clazz.getSimpleName() + ".");
+	public MissingContentException(String name, String expectedClassName, Class<?> clazz) {
+        super("The variable '" + name + "' is not of type " + expectedClassName + ", but has the unexpected type " + clazz.getSimpleName() + ".");
 	}
 }
